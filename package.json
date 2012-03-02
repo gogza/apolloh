@@ -1,0 +1,14 @@
+{
+  "author": "Gordon McAllister <gordon@apolloh.com>",
+  "name": "apolloh",
+  "description": "A Twitter poll engine.",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "engines": {
+    "node": "v0.6.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
