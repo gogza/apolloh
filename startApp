@@ -1,0 +1,9 @@
+#!/bin/sh
+reqversion='v0.6.0'
+version=`node -v`
+if [ $version = $reqversion ]; then
+  npm install
+  forever start -c coffee apolloh.coffee
+else
+  echo "ERROR: Need node ${reqversion}";
+fi
