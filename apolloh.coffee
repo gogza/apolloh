@@ -9,13 +9,8 @@ server.configure ()->
 
   server.use express.bodyParser()
   server.use express.methodOverride()
+  server.use express.compiler({src: __dirname + "/public", enable: ['less']})
   server.use server.router
-
-  server.use(stylus.middleware({
-    src: __dirname + "/stylus"
-    dest: __dirname + "/public/css"
-  }))
-
   server.use(express.static(__dirname + '/public'))
 
 server.get '/', (req, res)->
