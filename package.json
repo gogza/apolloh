@@ -10,11 +10,18 @@
     "node": "v0.6.0"
   },
   "dependencies": {
-    "express": "2.5.8",
-    "jade": ">= 0.0.1",
-    "less": "latest"
+    "express": "latest",
+    "jade": "latest",
+    "less": "latest",
+    "ntwitter": "latest"
   },
   "devDependencies": {
-    "coffee-script": "latest"
+    "coffee-script": "latest",
+    "cucumber": "latest",
+    "zombie": "latest",
+    "should": "latest"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/cucumber.js test/features -r test/features/step_definitions"
   }
 }

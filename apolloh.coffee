@@ -17,3 +17,5 @@ server.get '/', (req, res)->
   res.render 'home'
 
 server.listen 9100
+
+exports.app = server
