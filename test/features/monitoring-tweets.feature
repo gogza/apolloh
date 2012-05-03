@@ -1,0 +1,9 @@
+Feature: Monitors tweets about polls
+  As visitor
+  I want to see the number of tweets we have
+  So that I can tell that this service does what it says it does
+
+  Scenario: Visiting the home page
+    Given there are 2 tweets stored
+    When I visit the homepage
+    Then I should see 2 tweets

@@ -1,5 +1,6 @@
 express = require 'express'
 stylus = require 'stylus'
+Tweets = require './lib/tweets'
 
 server = express.createServer()
 
@@ -14,7 +15,8 @@ server.configure ()->
   server.use(express.static(__dirname + '/public'))
 
 server.get '/', (req, res)->
-  res.render 'home'
+  tweets = Tweets.getAll()
+  res.render 'home', {locals: {tweets: tweets}}
 
 server.listen 9100
 

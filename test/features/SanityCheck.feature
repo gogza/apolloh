@@ -1,4 +1,4 @@
-Feature: Homepage shows appoloh
+Feature: Homepage shows apoll-oh!
   As the developer
   I want to see the website is up and running
   So that I know everything is hooked up
