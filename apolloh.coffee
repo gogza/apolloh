@@ -22,6 +22,10 @@ server.get '/', (req, res)->
   tweets = Tweets.getAll()
   res.render 'home', {locals: {tweets: tweets}}
 
+server.get '/a65x', (req, res)->
+  tweets = Tweets.getAll()
+  res.render 'poll', {locals: {tweets: tweets}}
+
 server.listen 9100
 
 

@@ -13,3 +13,8 @@ Feature: Monitors tweets about polls
     When a new tweet arrives
     And I visit the homepage
     Then I should see 3 tweets
+
+  Scenario: Viewing the poll page
+    Given there are 2 tweets stored
+    When I visit the page for "a65x"
+    Then I should see 2 tweets

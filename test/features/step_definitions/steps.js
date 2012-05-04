@@ -10,7 +10,6 @@ var steps = module.exports = function () {
     if (!track) {
       track = track || sinon.stub(this.monitor.twitter, 'track');
       this.monitor.start();	
-      console.log('reset monitor');
     }
     next();
   });
@@ -44,6 +43,10 @@ var steps = module.exports = function () {
   this.When(/^a new tweet arrives$/, function(callback) {
     track.yield({});
     callback();
+  });
+
+  this.When('I visit the page for "$pollCode"', function(pollCode, next) {
+    this.visit('/' + pollCode, next);
   });
 
   this.Then(/^I should see (\d+) tweets$/, function(noOfTweets, next) {
