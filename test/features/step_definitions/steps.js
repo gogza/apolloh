@@ -1,4 +1,11 @@
+var sinon = require('sinon');
+
 var Tweets = require('../../../lib/tweets');
+var Monitor = require('../../../lib/monitor');
+
+var monitor = new Monitor();
+var track = sinon.stub(monitor.twitter, 'track');
+monitor.start();
 
 var steps = module.exports = function () {
   this.World = require('../support/world');
@@ -23,6 +30,11 @@ var steps = module.exports = function () {
 
   this.When(/^I visit the homepage$/, function(next) {
     this.visit('/', next);
+  });
+
+  this.When(/^a new tweet arrives$/, function(callback) {
+    track.yield([{}]);
+    callback();
   });
 
   this.Then(/^I should see (\d+) tweets$/, function(noOfTweets, next) {

@@ -7,3 +7,9 @@ Feature: Monitors tweets about polls
     Given there are 2 tweets stored
     When I visit the homepage
     Then I should see 2 tweets
+
+  Scenario: A tweet arrives
+    Given there are 2 tweets stored
+    When a new tweet arrives
+    And I visit the homepage
+    Then I should see 3 tweets

@@ -2,6 +2,7 @@ tweets = []
 
 class Tweets
   @clearAll: ()->
+    tweets = []
   @create: ()->
     tweets.push {}
   @getAll: ()->

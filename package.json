@@ -19,7 +19,8 @@
     "coffee-script": "latest",
     "cucumber": "latest",
     "zombie": "latest",
-    "should": "latest"
+    "should": "latest",
+    "sinon": "latest"
   },
   "scripts": {
     "test": "./node_modules/.bin/cucumber.js test/features -r test/features/step_definitions"
