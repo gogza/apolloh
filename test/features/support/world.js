@@ -15,5 +15,8 @@ var World = module.exports = function(callback) {
     });
   };
 
+  this.monitor = server.monitor;
+
   callback();
+
 };

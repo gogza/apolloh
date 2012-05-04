@@ -1,14 +1,23 @@
 var sinon = require('sinon');
 
 var Tweets = require('../../../lib/tweets');
-var Monitor = require('../../../lib/monitor');
-
-var monitor = new Monitor();
-var track = sinon.stub(monitor.twitter, 'track');
-monitor.start();
+var track;
 
 var steps = module.exports = function () {
   this.World = require('../support/world');
+
+  this.Before( function(next){
+    if (!track) {
+      track = track || sinon.stub(this.monitor.twitter, 'track');
+      this.monitor.start();	
+      console.log('reset monitor');
+    }
+    next();
+  });
+
+  this.After( function(next){
+    next();
+  });
 
   this.Given(/^I am on the homepage$/, function(next) {
     this.visit('/', next);
@@ -33,7 +42,7 @@ var steps = module.exports = function () {
   });
 
   this.When(/^a new tweet arrives$/, function(callback) {
-    track.yield([{}]);
+    track.yield({});
     callback();
   });
 

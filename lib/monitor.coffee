@@ -1,11 +1,12 @@
 events = require 'events'
 Tweets = require './tweets'
+Twitter = require './twitter'
 
 class Monitor extends events.EventEmitter
   constructor: ()->
-    @twitter = {track: (searchTerms, next) -> }
+    @twitter = Twitter
   start: ->
-    @twitter.track 'search for this', (tweet) ->
+    @twitter.track 'football', (tweet) ->
       Tweets.create()
 
 module.exports = Monitor

@@ -1,6 +1,10 @@
 express = require 'express'
 stylus = require 'stylus'
 Tweets = require './lib/tweets'
+Monitor = require './lib/monitor'
+
+monitor = new Monitor()
+monitor.start()
 
 server = express.createServer()
 
@@ -20,4 +24,6 @@ server.get '/', (req, res)->
 
 server.listen 9100
 
+
 exports.app = server
+exports.monitor = monitor
