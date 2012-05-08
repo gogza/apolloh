@@ -18,3 +18,4 @@ Feature: Monitors tweets about polls
     Given there are 2 tweets stored
     When I visit the page for "a65x"
     Then I should see 2 tweets
+    And a link to explain what apoll-oh is about

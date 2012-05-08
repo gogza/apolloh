@@ -41,3 +41,7 @@ steps = module.exports = () ->
   @Then /^I should see (\d+) tweets$/, (noOfTweets, next) ->
     @browser.queryAll('.tweet').length.should.eql(parseInt(noOfTweets,10))
     next()
+
+  @Then /^a link to explain what apoll\-oh is about$/, (next) ->
+    @browser.queryAll('a[href="/whatsthisallabout"]').length.should.be.above(0)
+    next()
