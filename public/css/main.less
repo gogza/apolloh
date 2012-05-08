@@ -9,10 +9,132 @@
     font-style: normal;
 }
 
+@theGrey: #111111;
+@theLightGrey: #bbb;
+@thePink: #ff34ff;
+@thePinkGlow: #ff14ff;
+@theYellow: #ccff00;
+@theYellowGlow: #88ee00;
 
 body {
+  background-color: #555;
   background: url(/img/apolloh_bg.png);
-  font-family: Geometry;
-  font-size: 50px;
-  color: #ff34ff;
+  background-size: 25%;
+  color: @theLightGrey;
+  margin: 0;
+  font-family: SegoeUI, Tahoma, Veranda, sans;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  font-family: Geometry;
+  color: @theYellow;
+  text-shadow: 0px 0px 10px @theYellowGlow;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+h3 {
+  font-size: 15px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  &:hover {
+    text-decoration: underline;
+  }
+  &.order-by {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    .padding;
+    padding-bottom: 3px;
+/*    float:right;
+    margin-top: -10px; */
+  }
+}
+
+
+@header-height: 100px;
+@footer-height: 45px;
+
+.padding {
+  padding: 0 5%;
+}
+
+.border {
+  border-color: #000;
+  border-width: 1px;
+}
+
+.bar {
+  background-color: #111111;
+  position: fixed;
+  left:0;
+  right:0;
+  .padding;
+  .border;
+  -webkit-box-shadow: 0px 0px 15px black;
+}
+
+header {
+  border-bottom-style: solid;
+  top: 0;
+  height: @header-height;
+}
+
+footer {
+  border-top-style: solid;
+  bottom: 0;
+  height: @footer-height;
+  .messages {
+    float:right;
+    margin: 13px 0; 
+  }
+  h2 {
+    float:left;
+  }
+}
+
+#results {
+  .padding;
+  padding-top: @header-height + 5px;
+  padding-bottom: @footer-height;
+}
+
+table {
+  width: 100%;
+  border-collapse: seperate;
+  thead {
+    display:none;
+    th {
+      border: 1px solid #444;
+      background-color: #777;
+    }
+  }
+  th:empty {
+    background: transparent;
+    border: 0;
+  }
+  tbody th {
+    text-align:left;
+    font-weight: normal;
+    line-height: 20px;
+  }
+  tfoot th {
+    text-align:left;    
+  }
+  td {
+    text-align:right;
+  }
+}
+
+
+

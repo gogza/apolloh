@@ -6,8 +6,112 @@
   font-style: normal;
 }
 body {
+  background-color: #555;
   background: url(/img/apolloh_bg.png);
+  background-size: 25%;
+  color: #bbbbbb;
+  margin: 0;
+  font-family: SegoeUI, Tahoma, Veranda, sans;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
   font-family: Geometry;
-  font-size: 50px;
-  color: #ff34ff;
+  color: #ccff00;
+  text-shadow: 0px 0px 10px #88ee00;
+}
+h1 {
+  font-size: 20px;
+}
+h2 {
+  font-size: 18px;
+}
+h3 {
+  font-size: 15px;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+a.order-by {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 0 5%;
+  padding-bottom: 3px;
+  /*    float:right;
+    margin-top: -10px; */
+
+}
+.padding {
+  padding: 0 5%;
+}
+.border {
+  border-color: #000;
+  border-width: 1px;
+}
+.bar {
+  background-color: #111111;
+  position: fixed;
+  left: 0;
+  right: 0;
+  padding: 0 5%;
+  border-color: #000;
+  border-width: 1px;
+  -webkit-box-shadow: 0px 0px 15px black;
+}
+header {
+  border-bottom-style: solid;
+  top: 0;
+  height: 100px;
+}
+footer {
+  border-top-style: solid;
+  bottom: 0;
+  height: 45px;
+}
+footer .messages {
+  float: right;
+  margin: 13px 0;
+}
+footer h2 {
+  float: left;
+}
+#results {
+  padding: 0 5%;
+  padding-top: 105px;
+  padding-bottom: 45px;
+}
+table {
+  width: 100%;
+  border-collapse: seperate;
+}
+table thead {
+  display: none;
+}
+table thead th {
+  border: 1px solid #444;
+  background-color: #777;
+}
+table th:empty {
+  background: transparent;
+  border: 0;
+}
+table tbody th {
+  text-align: left;
+  font-weight: normal;
+  line-height: 20px;
+}
+table tfoot th {
+  text-align: left;
+}
+table td {
+  text-align: right;
 }
