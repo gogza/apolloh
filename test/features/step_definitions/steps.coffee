@@ -35,7 +35,7 @@ steps = module.exports = () ->
     track.yield {}
     callback()
 
-  @When 'I visit the page for "$pollCode"', (pollCode, next) ->
+  @When 'I visit the page for the poll "$pollCode"', (pollCode, next) ->
     @visit '/' + pollCode, next
 
   @Then /^I should see (\d+) tweets$/, (noOfTweets, next) ->
@@ -44,4 +44,24 @@ steps = module.exports = () ->
 
   @Then /^a link to explain what apoll\-oh is about$/, (next) ->
     @browser.queryAll('a[href="/whatsthisallabout"]').length.should.be.above(0)
+    next()
+
+  @Then /^I should see a link to explain what apoll\-oh is about$/, (next) ->
+    @browser.queryAll('a[href="/whatsthisallabout"]').length.should.be.above(0)
+    next()
+
+  @Then /^a link back to the home page$/, (next) ->
+    @browser.queryAll('a[href="/"]').length.should.be.above(0)
+    next()
+
+  @Then /^a table for the results$/, (next) ->
+    @browser.queryAll('#results table').length.should.be.above(0)
+    next()
+
+  @Then /^the question asked$/, (next) ->
+    @browser.queryAll('#question').length.should.be.above(0)
+    next()
+
+  @Then /^a link to change the ordering of results$/, (next) ->
+    @browser.queryAll('a#change-order').length.should.be.above(0)
     next()
