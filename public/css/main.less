@@ -9,12 +9,18 @@
     font-style: normal;
 }
 
+/* COLOURS */
+
 @theGrey: #111111;
 @theLightGrey: #bbb;
 @thePink: #ff34ff;
 @thePinkGlow: #ff14ff;
 @theYellow: #ccff00;
 @theYellowGlow: #88ee00;
+
+/* DIMENSIONS */
+
+@maxTableWidth: 20em;
 
 body {
   background-color: #555;
@@ -23,6 +29,7 @@ body {
   color: @theLightGrey;
   margin: 0;
   font-family: SegoeUI, Tahoma, Veranda, sans;
+  font-size: 10px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -33,15 +40,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 20px;
+  font-size: 2em;
 }
 
 h2 {
-  font-size: 18px;
+  font-size: 1.8em;
+  margin: 0.83em;
 }
 
 h3 {
-  font-size: 15px;
+  font-size: 1.5em;
 }
 
 a {
@@ -50,20 +58,24 @@ a {
   &:hover {
     text-decoration: underline;
   }
-  &.order-by {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    .padding;
-    padding-bottom: 3px;
-/*    float:right;
-    margin-top: -10px; */
-  }
+}
+
+.order-by {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: @maxTableWidth * 1.5;
+  margin: 0 auto;
+  text-align: right;
+  .padding;
+  padding-bottom: 3px;
 }
 
 
-@header-height: 100px;
-@footer-height: 45px;
+
+@header-height: 9em;
+@footer-height: 4.5em;
 
 .padding {
   padding: 0 5%;
@@ -88,15 +100,17 @@ header {
   border-bottom-style: solid;
   top: 0;
   height: @header-height;
+  max-height: 150px;
 }
 
 footer {
   border-top-style: solid;
   bottom: 0;
   height: @footer-height;
+  max-height: 80px;
   .messages {
     float:right;
-    margin: 13px 0; 
+    margin: 1.7em 0; 
   }
   h2 {
     float:left;
@@ -105,8 +119,11 @@ footer {
 
 #results {
   .padding;
-  padding-top: @header-height + 5px;
-  padding-bottom: @footer-height;
+  padding-top: @header-height * 0.75;
+  padding-bottom: @footer-height * 0.75;
+  font-size: 1.5em;
+  max-width: @maxTableWidth;
+  margin: 0 auto;
 }
 
 table {
@@ -126,7 +143,7 @@ table {
   tbody th {
     text-align:left;
     font-weight: normal;
-    line-height: 20px;
+    line-height: 1.4em;
   }
   tfoot th {
     text-align:left;    
@@ -137,4 +154,44 @@ table {
 }
 
 
+@media screen and (min-width: 400px){
+
+  body {
+    font-size: 12px;
+  }
+
+}
+
+@media screen and (min-width: 500px){
+
+  body {
+    font-size: 13px;
+  }
+  
+}
+
+@media screen and (min-width: 700px){
+
+  body {
+    font-size: 15px;
+  }
+  
+}
+
+
+@media screen and (min-width: 900px){
+
+  body {
+    font-size: 18px;
+  }
+  
+}
+
+@media screen and (min-width: 1000px){
+
+  body {
+    font-size: 21px;
+  }
+  
+}
 
