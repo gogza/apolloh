@@ -43,25 +43,29 @@ steps = module.exports = () ->
     next()
 
   @Then /^a link to explain what apoll\-oh is about$/, (next) ->
-    @browser.queryAll('a[href="/whatsthisallabout"]').length.should.be.above(0)
+    @browser.queryAll('a[href="/whatsthisallabout"]').should.not.be.empty
     next()
 
   @Then /^I should see a link to explain what apoll\-oh is about$/, (next) ->
-    @browser.queryAll('a[href="/whatsthisallabout"]').length.should.be.above(0)
+    @browser.queryAll('a[href="/whatsthisallabout"]').should.not.be.empty
     next()
 
   @Then /^a link back to the home page$/, (next) ->
-    @browser.queryAll('a[href="/"]').length.should.be.above(0)
+    @browser.queryAll('a[href="/"]').should.not.be.empty
     next()
 
   @Then /^a table for the results$/, (next) ->
-    @browser.queryAll('#results table').length.should.be.above(0)
+    @browser.queryAll('#results table').should.not.be.empty
     next()
 
   @Then /^the question asked$/, (next) ->
-    @browser.queryAll('#question').length.should.be.above(0)
+    @browser.queryAll('#question').should.not.be.empty
     next()
 
   @Then /^a link to change the ordering of results$/, (next) ->
-    @browser.queryAll('a#change-order').length.should.be.above(0)
+    @browser.queryAll('a#change-order').should.not.be.empty
+    next()
+
+  @Then /^I should see a total of (\d+) tweets in the results table$/, (tweetCount, next) ->
+    @browser.text('#total').should.eql(tweetCount)
     next()
