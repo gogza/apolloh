@@ -15,4 +15,5 @@ Feature: Looking at a Poll results page
     Given there are 2 tweets stored
     When I visit the page for the poll "a65x"
     Then I should see a total of 2 tweets in the results table
+    And I should see 2 rows in the results table
 

@@ -69,3 +69,7 @@ steps = module.exports = () ->
   @Then /^I should see a total of (\d+) tweets in the results table$/, (tweetCount, next) ->
     @browser.text('#total').should.eql(tweetCount)
     next()
+
+  @Then /^I should see (\d+) rows in the results table$/, (noOfTweets, next) ->
+    @browser.queryAll('tbody tr').length.should.eql(parseInt(noOfTweets,10))
+    next()
