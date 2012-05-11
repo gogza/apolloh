@@ -5,8 +5,7 @@ tweets = []
 class Tweets
   @clearAll: ()->
     tweets = []
-  @create: ()->
-    tweet = {}
+  @create: (tweet)->
     tweets.push tweet
     Tweets.emit 'received', tweet
   @getAll: ()->

@@ -1,13 +1,27 @@
 Tweets = require './tweets'
 
-results = []
-results.total = 0
+question = 'Who will win the #scottishpremierleague next season?'
+
+results = {
+  answers: {}
+  total: 0
+}
 
 Tweets.on 'received', (tweet) ->
-  results.push tweet
-  results.total += 1
+  answer = tweet.replace(question, '').trim()
+  if results.answers.hasOwnProperty(answer)
+    results.answers[answer]++
+  else
+    results.answers[answer] = 1
+  results.total++
 
 class Polls
+  @clearAll: () ->
+    results = {
+      answers: {}
+      total: 0
+    }
+
   @get: ()->
     {results: results}
 

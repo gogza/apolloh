@@ -1,12 +1,17 @@
+util = require 'util'
 sinon = require 'sinon'
 
 Tweets = require '../../../lib/tweets'
+Polls = require '../../../lib/polls'
+
 track = null
 
 steps = module.exports = () ->
   @World = require '../support/world'
 
   @Before (next) ->
+    Tweets.clearAll()
+    Polls.clearAll()
     if not track
       track = sinon.stub @monitor.twitter, 'track'
       @monitor.start()
@@ -24,16 +29,19 @@ steps = module.exports = () ->
     next()
 
   @Given /^there are (\d+) tweets stored$/, (noOfTweets, next) ->
-    Tweets.clearAll()
-    Tweets.create() for i in [1..2]
+    Tweets.create('fake tweet') for i in [1..noOfTweets]
+    next()
+
+  @Given /^there are these tweets stored$/, (tweets, next) ->
+    Tweets.create(tweet.tweets) for tweet in tweets.hashes()
     next()
 
   @When /^I visit the homepage$/, (next) ->
     @visit '/', next
 
-  @When /^a new tweet arrives$/, (callback) ->
-    track.yield {}
-    callback()
+  @When /^a new tweet arrives$/, (next) ->
+    track.yield 'fake tweet'
+    next()
 
   @When 'I visit the page for the poll "$pollCode"', (pollCode, next) ->
     @visit '/' + pollCode, next
@@ -73,3 +81,12 @@ steps = module.exports = () ->
   @Then /^I should see (\d+) rows in the results table$/, (noOfTweets, next) ->
     @browser.queryAll('tbody tr').length.should.eql(parseInt(noOfTweets,10))
     next()
+
+  @Then /^I should see a row for "([^"]*)"$/, (answer, next) ->
+    @browser.queryAll('tr th:contains('+answer+')').should.not.be.empty
+    next()
+
+  @Then /^the row for "([^"]*)" should have a total of (\d+)$/, (answer, total, next) ->
+    @browser.text('td[data-answer='+answer+']').should.eql(total)
+    next()
+

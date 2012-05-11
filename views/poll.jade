@@ -14,8 +14,8 @@ header.bar
         th total
         td#total= results.total
     tbody
-      - each result in results
+      - each total, answer in results.answers
         tr
-          th #rangers
-          td 45
+          th= answer
+          td(data-answer="#{answer}")= total
 

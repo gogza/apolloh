@@ -7,7 +7,7 @@ class Monitor extends events.EventEmitter
     @twitter = Twitter
   start: ->
     @twitter.track 'Who will be second in the #sql next season?', (tweet) ->
-      Tweets.create()
+      Tweets.create(tweet)
 
 
 module.exports = Monitor
