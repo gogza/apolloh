@@ -1,5 +1,5 @@
 header.bar
-  h1#question Who do you think will win the #scottishpremierleague next season?
+  h1#question= poll.question
   .order-by
     span Ordered 
       a#change-order(href="/orderby") by tweets
@@ -12,10 +12,10 @@ header.bar
     tfoot
       tr
         th total
-        td#total= results.total
+        td#total= poll.results.total
     tbody
-      - each total, answer in results.answers
+      - each answer in poll.results.answers
         tr
-          th= answer
-          td(data-answer="#{answer}")= total
+          th= answer.text
+          td(data-answer="#{answer.text}")= answer.count
 

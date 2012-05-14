@@ -1,5 +1,4 @@
-# TWEETS
-
+# TWEET
 
 assert = require('assert')
 EventEmitter = require('events').EventEmitter

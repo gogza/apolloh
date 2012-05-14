@@ -1,21 +1,23 @@
 util = require 'util'
 sinon = require 'sinon'
 
-Tweets = require '../../../lib/tweets'
-Polls = require '../../../lib/polls'
+Tweet = require '../../../lib/tweet'
+Poll = require '../../../lib/poll'
 
 track = null
+timestep = 200
 
 steps = module.exports = () ->
   @World = require '../support/world'
 
   @Before (next) ->
-    Tweets.clearAll () =>
-      Polls.clearAll()
-      if not track
-        track = sinon.stub @monitor.twitter, 'track'
-        @monitor.start()
-      next()
+    Tweet.clearAll () =>
+      Poll.clearAll () =>
+        Poll.get () =>
+          if not track
+            track = sinon.stub @monitor.twitter, 'track'
+            @monitor.start()
+          next()
 
   @After (next) ->
     next()
@@ -29,19 +31,29 @@ steps = module.exports = () ->
     next()
 
   @Given /^there are (\d+) tweets stored$/, (noOfTweets, next) ->
-    Tweets.create({text:'fake tweet'}) for i in [1..noOfTweets]
-    next()
+    time = 0
+    action = () -> Tweet.create({text:'fake tweet'})
+    for i in [1..noOfTweets]
+      setTimeout action, time
+      time =+ timestep
+    setTimeout next, time + timestep
 
   @Given /^there are these tweets stored$/, (tweets, next) ->
-    Tweets.create({text: tweet.tweets}) for tweet in tweets.hashes()
-    next()
+    tweetObjects = ({text: tweet.tweets} for tweet in tweets.hashes())
+    time = 0
+    for tweet in tweetObjects
+      do (tweet) ->
+        action = () -> Tweet.create(tweet)
+        setTimeout action, time
+        time += timestep
+    setTimeout next, time + timestep
 
   @When /^I visit the homepage$/, (next) ->
     @visit '/', next
 
   @When /^a new tweet arrives$/, (next) ->
     track.yield {text:'fake tweet'}
-    next()
+    setTimeout next, timestep
 
   @When 'I visit the page for the poll "$pollCode"', (pollCode, next) ->
     @visit '/' + pollCode, next

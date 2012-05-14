@@ -1,7 +1,7 @@
 express = require 'express'
 stylus = require 'stylus'
-Tweets = require './lib/tweets'
-Polls = require './lib/polls'
+Tweet = require './lib/tweet'
+Poll = require './lib/poll'
 Monitor = require './lib/monitor'
 
 monitor = new Monitor()
@@ -20,12 +20,12 @@ server.configure ()->
   server.use(express.static(__dirname + '/public'))
 
 server.get '/', (req, res)->
-  tweets = Tweets.getAll (tweets) ->
+  tweets = Tweet.getAll (tweets) ->
     res.render 'home', {locals: {tweets: tweets}}
 
 server.get '/a65x', (req, res)->
-  poll = Polls.get()
-  res.render 'poll', {locals: {results: poll.results}}
+  Poll.get (poll)->
+    res.render 'poll', {locals: {poll: poll}}
 
 server.listen 9100
 
