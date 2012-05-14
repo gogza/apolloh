@@ -10,12 +10,12 @@ steps = module.exports = () ->
   @World = require '../support/world'
 
   @Before (next) ->
-    Tweets.clearAll()
-    Polls.clearAll()
-    if not track
-      track = sinon.stub @monitor.twitter, 'track'
-      @monitor.start()
-    next()
+    Tweets.clearAll () =>
+      Polls.clearAll()
+      if not track
+        track = sinon.stub @monitor.twitter, 'track'
+        @monitor.start()
+      next()
 
   @After (next) ->
     next()
@@ -29,18 +29,18 @@ steps = module.exports = () ->
     next()
 
   @Given /^there are (\d+) tweets stored$/, (noOfTweets, next) ->
-    Tweets.create('fake tweet') for i in [1..noOfTweets]
+    Tweets.create({text:'fake tweet'}) for i in [1..noOfTweets]
     next()
 
   @Given /^there are these tweets stored$/, (tweets, next) ->
-    Tweets.create(tweet.tweets) for tweet in tweets.hashes()
+    Tweets.create({text: tweet.tweets}) for tweet in tweets.hashes()
     next()
 
   @When /^I visit the homepage$/, (next) ->
     @visit '/', next
 
   @When /^a new tweet arrives$/, (next) ->
-    track.yield 'fake tweet'
+    track.yield {text:'fake tweet'}
     next()
 
   @When 'I visit the page for the poll "$pollCode"', (pollCode, next) ->

@@ -20,11 +20,10 @@ server.configure ()->
   server.use(express.static(__dirname + '/public'))
 
 server.get '/', (req, res)->
-  tweets = Tweets.getAll()
-  res.render 'home', {locals: {tweets: tweets}}
+  tweets = Tweets.getAll (tweets) ->
+    res.render 'home', {locals: {tweets: tweets}}
 
 server.get '/a65x', (req, res)->
-  tweets = Tweets.getAll()
   poll = Polls.get()
   res.render 'poll', {locals: {results: poll.results}}
 

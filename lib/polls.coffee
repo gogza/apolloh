@@ -1,13 +1,16 @@
+assert = require('assert')
+
 Tweets = require './tweets'
 
 question = 'Who will win the #scottishpremierleague next season?'
 
-results = {
+results =
   answers: {}
   total: 0
-}
 
 Tweets.on 'received', (tweet) ->
+  assert.ok typeof tweet == "string", "#{tweet} should be a string"
+
   answer = tweet.replace(question, '').trim()
   if results.answers.hasOwnProperty(answer)
     results.answers[answer]++
@@ -17,10 +20,9 @@ Tweets.on 'received', (tweet) ->
 
 class Polls
   @clearAll: () ->
-    results = {
+    results =
       answers: {}
       total: 0
-    }
 
   @get: ()->
     {results: results}
