@@ -30,10 +30,18 @@ steps = module.exports = () ->
     this.browser.text('body').should.include text
     next()
 
-  @Given /^there are (\d+) tweets stored$/, (noOfTweets, next) ->
+#  @Given /^there are (\d+) tweets stored$/, (noOfTweets, next) ->
+#    time = 0
+#    action = () -> Tweet.create({text:'fake tweet'})
+#    for i in [1..noOfTweets]
+#      setTimeout action, time
+#      time =+ timestep
+#    setTimeout next, time + timestep
+
+  @Given /^there are (\d+) questions active$/, (noOfQuestions, next) ->
     time = 0
-    action = () -> Tweet.create({text:'fake tweet'})
-    for i in [1..noOfTweets]
+    action = () -> Poll.create("this question")
+    for i in [1..noOfQuestions]
       setTimeout action, time
       time =+ timestep
     setTimeout next, time + timestep
@@ -58,9 +66,9 @@ steps = module.exports = () ->
   @When 'I visit the page for the poll "$pollCode"', (pollCode, next) ->
     @visit '/' + pollCode, next
 
-  @Then /^I should see (\d+) tweets$/, (noOfTweets, next) ->
-    @browser.queryAll('.tweet').length.should.eql(parseInt(noOfTweets,10))
-    next()
+#  @Then /^I should see (\d+) tweets$/, (noOfTweets, next) ->
+#    @browser.queryAll('.tweet').length.should.eql(parseInt(noOfTweets,10))
+#    next()
 
   @Then /^a link to explain what apoll\-oh is about$/, (next) ->
     @browser.queryAll('a[href="/whatsthisallabout"]').should.not.be.empty
@@ -102,3 +110,10 @@ steps = module.exports = () ->
     @browser.text('td[data-answer='+answer+']').should.eql(total)
     next()
 
+  @Then /^I should see the question list$/, (next) ->
+    @browser.queryAll('#questions ul').should.not.be.empty
+    next()
+
+  @Then /^the question list should have (\d+) links$/, (noOfLinks, next) ->
+    @browser.queryAll('#questions ul li a').length.toString().should.eql(noOfLinks)
+    next()

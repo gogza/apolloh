@@ -1,4 +1,16 @@
-p apoll-oh!
-ul
-  each tweet in tweets
-    li.tweet tweet
+header.bar
+  h1.home apoll-oh!
+  .order-by
+    span 
+      a#sign-up(href="/signup") sign up
+
+article#info.page
+  .tag-line You tweet the question<br/>We gather the results
+
+  #questions
+    h3 The latest questions
+    ul
+      - each poll in polls
+        li 
+          a(href="/#{poll.token}")= poll.question
+

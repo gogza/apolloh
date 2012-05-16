@@ -21,7 +21,7 @@ server.configure ()->
 
 server.get '/', (req, res)->
   tweets = Tweet.getAll (tweets) ->
-    res.render 'home', {locals: {tweets: tweets}}
+    res.render 'home', {locals: {tweets: tweets, polls:{}}}
 
 server.get '/a65x', (req, res)->
   Poll.get (poll)->

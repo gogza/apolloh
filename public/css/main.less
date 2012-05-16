@@ -17,6 +17,7 @@
 @thePinkGlow: #ff14ff;
 @theYellow: #ccff00;
 @theYellowGlow: #88ee00;
+@theBlack: #000;
 
 /* DIMENSIONS */
 
@@ -32,15 +33,21 @@ body {
   font-size: 10px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+.theGlow {
   font-weight: normal;
   font-family: Geometry;
   color: @theYellow;
   text-shadow: 0px 0px 10px @theYellowGlow;
 }
+h1, h2, h3, h4, h5, h6 {
+  .theGlow
+}
 
 h1 {
   font-size: 2em;
+  &.home {
+    font-size: 4em;
+  }
 }
 
 h2 {
@@ -57,6 +64,28 @@ a {
   color: inherit;
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.tag-line {
+  background-color: @theYellow;
+  color: rgba(0,0,0,0.8);
+  -webkit-box-shadow: 0px 0px 15px @theBlack;
+  padding: 0.3em 0.5em;
+  line-height: 1em;
+  font-size: 1.2em;
+  text-shadow: 0px 0px 2px rgba(0,0,0,0.2);
+}
+
+.questions {
+  ul {
+    padding: 0;
+    list-style-type: none;
+    li:before {
+      content: ">";
+      padding-right: 0.2em;
+      .theGlow
+    }
   }
 }
 
@@ -116,7 +145,7 @@ footer {
   }
 }
 
-#results {
+article.page {
   .padding;
   padding-top: @header-height * 0.75;
   padding-bottom: @footer-height * 0.75;
