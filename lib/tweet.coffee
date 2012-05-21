@@ -1,10 +1,13 @@
 # TWEET
 
-assert = require('assert')
+# node.js dependencies
+assert = require 'assert'
 EventEmitter = require('events').EventEmitter
 
-mongoose = require 'mongoose'
-mongoose.connect 'mongodb://127.0.0.1/apolloh'
+# app dependencies
+mongoose = require './mongoose'
+
+#Build schema
 
 schema = new mongoose.Schema (
   text: String
@@ -29,6 +32,11 @@ schema.statics.create = (json)->
 schema.statics.getAll = (next)->
   @find {}, (err, docs) ->
     next(docs)
+
+schema.statics.use = (app)->
+  app.on "monitor/received", (tweet) =>
+    @create tweet
+
 
 Tweet = mongoose.model 'Tweet', schema
 

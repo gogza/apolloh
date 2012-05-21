@@ -1,6 +1,10 @@
+#Monitor
+
+#node.js dependencies
 assert = require 'assert'
 events = require 'events'
-Tweet = require './tweet'
+
+#libraries
 Twitter = require './twitter'
 
 class Monitor extends events.EventEmitter
@@ -8,9 +12,8 @@ class Monitor extends events.EventEmitter
     @twitter = Twitter
   start: ->
 #   @twitter.track 'Who will be second in the #sql next season?', (tweet) ->
-    @twitter.track '#football', (tweet) ->
+    @twitter.track '#football', (tweet) =>
       assert.ok typeof tweet == "object", "Monitor: #{tweet} is not an object."
-      Tweet.create tweet
-
+      @emit "received", tweet
 
 module.exports = Monitor

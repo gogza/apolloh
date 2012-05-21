@@ -6,11 +6,11 @@ header.bar
 
 article#info.page
   .tag-line You tweet the question<br/>We gather the results
-
   #questions
     h3 The latest questions
     ul
-      - each poll in polls
-        li 
-          a(href="/#{poll.token}")= poll.question
+      - for poll in polls
+        - for p in poll
+          li 
+            a(href="/#{p.token}")= p.question
 

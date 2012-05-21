@@ -13,11 +13,10 @@ steps = module.exports = () ->
   @Before (next) ->
     Tweet.clearAll () =>
       Poll.clearAll () =>
-        Poll.get () =>
-          if not track
-            track = sinon.stub @monitor.twitter, 'track'
-            @monitor.start()
-          next()
+        if not track
+          track = sinon.stub @monitor.twitter, 'track'
+          @monitor.start()
+        next()
 
   @After (next) ->
     next()
@@ -30,45 +29,92 @@ steps = module.exports = () ->
     this.browser.text('body').should.include text
     next()
 
-#  @Given /^there are (\d+) tweets stored$/, (noOfTweets, next) ->
-#    time = 0
-#    action = () -> Tweet.create({text:'fake tweet'})
-#    for i in [1..noOfTweets]
-#      setTimeout action, time
-#      time =+ timestep
-#    setTimeout next, time + timestep
-
   @Given /^there are (\d+) questions active$/, (noOfQuestions, next) ->
-    time = 0
+    noOfQuestions = parseInt(noOfQuestions,10)
     action = () -> Poll.create("this question")
-    for i in [1..noOfQuestions]
-      setTimeout action, time
-      time =+ timestep
-    setTimeout next, time + timestep
 
-  @Given /^there are these tweets stored$/, (tweets, next) ->
-    tweetObjects = ({text: tweet.tweets} for tweet in tweets.hashes())
-    time = 0
-    for tweet in tweetObjects
-      do (tweet) ->
-        action = () -> Tweet.create(tweet)
-        setTimeout action, time
-        time += timestep
-    setTimeout next, time + timestep
+    createdSoFar = 0
+
+    Poll.on "created", (poll) ->
+      createdSoFar++
+      if createdSoFar == noOfQuestions
+        next()
+      else
+        action()
+
+    action()
+
+  @Given /^there are these tweets stored$/, (table, next) ->
+
+    tweets = ({text: tweet.tweets} for tweet in table.hashes())
+
+    add = (tweet) ->
+      Tweet.create(tweet)
+
+    callback = () ->
+      if tweets.length
+        tweet = tweets.pop()
+        add tweet
+      else
+        Poll.removeListener 'answerAdded', callback
+        next()
+
+    Poll.on 'answerAdded', callback
+
+    add(tweets.pop())
+
+
+  @Given /^I have the following polls$/, (table, next) ->
+    polls = table.hashes()
+    create = (poll) -> Poll.create(poll.question, poll.token)
+
+    callback = (poll) ->
+      if polls.length
+        poll = polls.pop()
+        create poll
+      else
+        Poll.removeListener "created", callback
+        next()
+
+    Poll.on "created", callback
+
+    create(polls.pop())
+
 
   @When /^I visit the homepage$/, (next) ->
     @visit '/', next
 
-  @When /^a new tweet arrives$/, (next) ->
-    track.yield {text:'fake tweet'}
-    setTimeout next, timestep
+#  @When /^a new tweet arrives$/, (next) ->
+#    track.yield {text:'fake tweet'}
+#    setTimeout next, timestep
 
-  @When 'I visit the page for the poll "$pollCode"', (pollCode, next) ->
-    @visit '/' + pollCode, next
+  @When /^I visit the page for the poll "([^"]*)"$/, (token, next) ->
+    @visit '/' + token, next
 
-#  @Then /^I should see (\d+) tweets$/, (noOfTweets, next) ->
-#    @browser.queryAll('.tweet').length.should.eql(parseInt(noOfTweets,10))
-#    next()
+  @Given /^the following tweets arrive$/, (table, next) ->
+    tweets = table.hashes()
+#    console.log "tweets are starting to arrive"
+
+    add = (tweet) ->
+#      console.log "tweet is: #{tweet}"
+      track.yield {text: tweet.tweets}
+
+    callback = (answer) ->
+#      console.log "answer #{answer} processed"
+#      console.log "tweet length is: #{tweets.length}"
+      if tweets.length
+        tweet = tweets.pop()
+        add tweet
+      else
+#        console.log "when does this happen?"
+        Poll.removeListener "answerAdded", callback
+        next()
+
+    Poll.on "answerAdded", callback
+
+#    console.log "listening for the the processed tweets"
+
+    add(tweets.pop())
 
   @Then /^a link to explain what apoll\-oh is about$/, (next) ->
     @browser.queryAll('a[href="/whatsthisallabout"]').should.not.be.empty
@@ -95,6 +141,7 @@ steps = module.exports = () ->
     next()
 
   @Then /^I should see a total of (\d+) tweets in the results table$/, (tweetCount, next) ->
+#    console.log @browser.html('table')
     @browser.text('#total').should.eql(tweetCount)
     next()
 
