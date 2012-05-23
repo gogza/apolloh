@@ -44,7 +44,6 @@ Feature: Looking at a Poll results page
     And I should see a row for "#yes"
     And the row for "#yes" should have a total of 2
 
-  @wip
   Scenario: Some more tweets arrive
     Given I have the following polls
       | token | question            |

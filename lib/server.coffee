@@ -32,9 +32,25 @@ class WebServer
       app.getAllPolls (polls)->
         res.render 'home', {locals: {polls:{polls}}}
 
+    @server.get '/whatsthisallabout', (req, res)->
+      res.render 'whatsthisallabout'
+
     @server.get '/:token' , (req, res)->
       app.getPoll req.params.token, (poll)->
         res.render 'poll', {locals: {poll: poll}}
+
+    @server.post "/admin/#{app.adminKey}/polls/add" , (req, res)->
+      app.createNewPoll req.body.question, () ->
+        res.redirect 'back'
+
+    @server.get "/admin/#{app.adminKey}" , (req, res)->
+      app.getFilter (filter)->
+        app.getAllPolls (polls)->
+          res.render 'admin', {locals: {
+            polls:{polls}
+            adminKey: app.adminKey
+            filter: filter
+          }}
 
     # start listening
     @server.listen port

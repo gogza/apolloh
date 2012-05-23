@@ -1,0 +1,17 @@
+header.bar
+  h1.home apoll-oh! admin
+
+article#info.page
+  #questions
+    h3 Current questions
+    ul
+      - for poll in polls
+        - for p in poll
+          li 
+            a(href="/#{p.token}")= p.question
+    form(action="/admin/#{adminKey}/polls/add",method="post")
+      input#new-question(name="question")
+      button#add-question add
+  #filter
+    h3 Current filter
+    p= filter

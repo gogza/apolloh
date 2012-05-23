@@ -36,8 +36,14 @@ PollSchema.statics.get = (token, next) ->
     if not err
       next(poll)
 
-PollSchema.statics.create = (question, token) ->
+PollSchema.statics.create = (question, token, next) ->
   Poll = @
+
+  if typeof token == "function"
+   next = token
+   token = undefined
+
+  if next is undefined then next = ()-> 1
 
   createUniqueToken = (next) ->
     token = Math.random().toString(32).substr(2,4)
@@ -52,10 +58,17 @@ PollSchema.statics.create = (question, token) ->
       poll = new Poll({token: token, question: question})
       poll.save () ->
         Poll.emit "created", {token: token, question: question}
+        next()
   else
     poll = new Poll({token: token, question: question})
     poll.save () ->
       Poll.emit "created", {token: token, question: question}
+      next()
+
+PollSchema.statics.getFilter = (next) ->
+  @find {}, ['question'], (err, polls) ->
+    filter = (poll.question for poll in polls).join(',')
+    next(filter)
 
 PollSchema.statics.use = (app) ->
   app.on 'tweet/received', (tweet) ->

@@ -46,6 +46,16 @@ h2 {
 h3 {
   font-size: 1.5em;
 }
+p.tweet {
+  background-color: #bbbbbb;
+  color: #000000;
+  padding: 0.5em;
+}
+p.warning {
+  background-color: #f03232;
+  color: #000000;
+  padding: 0.5em;
+}
 a {
   text-decoration: none;
   color: inherit;
