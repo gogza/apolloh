@@ -9,9 +9,9 @@ article#info.page
         - for p in poll
           li 
             a(href="/#{p.token}")= p.question
-    form(action="/admin/#{adminKey}/polls/add",method="post")
-      input#new-question(name="question")
-      button#add-question add
+    form#add-question(action="/admin/#{adminKey}/polls/add",method="post")
+      input#question-text(name="question")
+      button#create Create
   #filter
     h3 Current filter
     p= filter

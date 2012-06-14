@@ -101,10 +101,13 @@ steps = module.exports = () ->
       checkIfBothComplete() if clientFinished()
 
     asyncAdd Poll, 'created', questions, theServerIsFinished, (question) =>
-      @browser.fill("#new-question", question).pressButton("#add-question", submittedFormOnClient)
+      @browser.fill("#question-text", question).pressButton("#create", submittedFormOnClient)
 
   @When /^I visit the explanation page$/, (next) ->
     @visit '/whatsthisallabout', next
+
+  @When /^I visit page for adding polls$/, (next) ->
+    @visit '/polls/new', next
 
   @Then /^I should see the page$/, (next) ->
     @browser.text('body').should.include("What's this all about?")
@@ -116,6 +119,10 @@ steps = module.exports = () ->
 
   @Then /^I should see a link to explain what apoll\-oh is about$/, (next) ->
     @browser.queryAll('a[href="/whatsthisallabout"]').should.not.be.empty
+    next()
+
+  @Then /^I should see a link to create a new poll$/, (next) ->
+    @browser.queryAll('a[href="/polls/new"]').should.not.be.empty
     next()
 
   @Then /^a link back to the home page$/, (next) ->
@@ -175,6 +182,18 @@ steps = module.exports = () ->
     texts = (hash.question for hash in table.hashes())
     filter = @browser.text('#filter')
     filter.should.include(text) for text in texts
+    next()
+
+  @Then /^I should see a form to fill in$/, (next)->
+    @browser.queryAll('form#add-question').should.not.be.empty
+    next()
+
+  @Then /^I should see a create button$/, (next) ->
+    @browser.queryAll('form#add-question input[type="submit"][value="Create"]').should.not.be.empty
+    next()
+
+  @Then /^I should see the question "([^"]*)"$/, (question, next) ->
+    @browser.text('header.bar').should.include(question)
     next()
 
 

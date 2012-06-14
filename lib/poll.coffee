@@ -58,12 +58,12 @@ PollSchema.statics.create = (question, token, next) ->
       poll = new Poll({token: token, question: question})
       poll.save () ->
         Poll.emit "created", {token: token, question: question}
-        next()
+        next(token)
   else
     poll = new Poll({token: token, question: question})
     poll.save () ->
       Poll.emit "created", {token: token, question: question}
-      next()
+      next(token)
 
 PollSchema.statics.getFilter = (next) ->
   @find {}, ['question'], (err, polls) ->

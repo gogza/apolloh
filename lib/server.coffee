@@ -5,6 +5,10 @@ express = require 'express'
 
 app = {}
 
+#helpers
+
+l = console.log
+
 class WebServer
   constructor: ()->
     server = express.createServer()
@@ -34,6 +38,13 @@ class WebServer
 
     @server.get '/whatsthisallabout', (req, res)->
       res.render 'whatsthisallabout'
+
+    @server.get '/polls/new', (req, res)->
+      res.render 'polls/new'
+
+    @server.post '/polls/create', (req, res)->
+      app.createNewPoll req.body.question, (token) ->
+        res.redirect "/#{token}"
 
     @server.get '/:token' , (req, res)->
       app.getPoll req.params.token, (poll)->

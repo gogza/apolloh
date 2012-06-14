@@ -63,6 +63,13 @@ a {
 a:hover {
   text-decoration: underline;
 }
+form input {
+  font-size: 1em;
+  margin: 0.3em 0;
+}
+#question-text {
+  width: 100%;
+}
 .tag-line {
   background-color: #ccff00;
   color: rgba(0, 0, 0, 0.8);

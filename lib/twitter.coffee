@@ -14,15 +14,25 @@ twitter = new ntwitter {
 #      console.log data if data
 #      console.log err if err
 
+liveStream = null
+
 class Twitter
   @verify: ()->
     twitter.verifyCredentials () ->
       console.log arguments
   @track: (filterTerms, next) ->
     assert.ok filterTerms.length > 0, "Twitter.track: Filter Terms must have at least 1 character"
+    liveStream.destroy() if liveStream isnt null
     twitter.stream 'statuses/filter', {'track': filterTerms}, (stream)->
+      liveStream = stream
 
       stream.on 'data', (data)->
         next(data)
+
+      stream.on 'destroy', () ->
+        console.log "destroyed"
+        console.log arguments
+
+    liveStream
 
 module.exports = Twitter
