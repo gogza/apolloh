@@ -46,10 +46,6 @@ class WebServer
       app.createNewPoll req.body.question, (token) ->
         res.redirect "/#{token}"
 
-    @server.get '/:token' , (req, res)->
-      app.getPoll req.params.token, (poll)->
-        res.render 'poll', {locals: {poll: poll}}
-
     @server.post "/admin/#{app.adminKey}/polls/add" , (req, res)->
       app.createNewPoll req.body.question, () ->
         res.redirect 'back'
@@ -62,6 +58,13 @@ class WebServer
             adminKey: app.adminKey
             filter: filter
           }}
+
+    @server.get /^\/[a-zA-Z0-9]{4}$/ , (req, res)->
+      token = req.url.slice(1)
+      app.getPoll token, (poll)->
+        res.send 404 if poll is null
+        res.render 'poll', {locals: {poll: poll}}
+
 
     # start listening
     @server.listen port
