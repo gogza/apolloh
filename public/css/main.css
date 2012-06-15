@@ -182,6 +182,14 @@ table td {
     font-size: 13px;
   }
 }
+@media screen and (max-width: 500px) {
+  #uvTabLabel {
+    padding: 6px 0 2px 32px !important;
+  }
+  #uvTabLabel img {
+    width: 0;
+  }
+}
 @media screen and (min-width: 700px) {
   body {
     font-size: 15px;
