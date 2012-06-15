@@ -44,7 +44,8 @@ h2 {
   margin: 0.83em;
 }
 h3 {
-  font-size: 1.5em;
+  font-size: 1.3em;
+  margin: 1em 0 0.7em;
 }
 p.tweet {
   background-color: #bbbbbb;
@@ -63,12 +64,14 @@ a {
 a:hover {
   text-decoration: underline;
 }
-form input {
+input,
+textarea {
   font-size: 1em;
   margin: 0.3em 0;
-}
-#question-text {
   width: 100%;
+}
+textarea {
+  height: 4.7em;
 }
 .tag-line {
   background-color: #ccff00;

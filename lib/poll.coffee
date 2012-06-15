@@ -111,6 +111,11 @@ PollSchema.methods.addTweet = (tweet, next) ->
       else
         @_increaseAnswerCount answer, next(answer)
 
+#Virtuals
+
+PollSchema.virtual('tweet').get () ->
+  "apolloh.com/#{@token} #{@question}"
+
 Poll = mongoose.model 'Poll', PollSchema
 
 # Listening on ..

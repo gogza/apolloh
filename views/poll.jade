@@ -1,21 +1,24 @@
 header.bar
   h1#question= poll.question
   .order-by
-    span Ordered 
-      a#change-order(href="/orderby") by tweets
 article#results.page
-  table
-    thead
-      tr
-        th
-        th # Tweets
-    tfoot
-      tr
-        th total
-        td#total= poll.results.total
-    tbody
-      - each answer in poll.results.answers
+  #results
+    h3 Results
+    table
+      thead
         tr
-          th= answer.text
-          td(data-answer="#{answer.text}")= answer.count
+          th
+          th # Tweets
+      tfoot
+        tr
+          th total
+          td#total= poll.results.total
+      tbody
+        - each answer in poll.results.answers
+          tr
+            th= answer.text
+            td(data-answer="#{answer.text}")= answer.count
+  #tweet
+    h3 Tweet this
+    textarea(readonly="true")= poll.tweet
 
