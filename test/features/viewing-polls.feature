@@ -3,6 +3,7 @@ Feature: Looking at a Poll results page
   I want to see the results of a poll
   So I can see how the results are building
 
+  @wip
   Scenario: Visiting a poll page - sanity check
     Given I have the following polls
       | token | question            |
@@ -11,8 +12,7 @@ Feature: Looking at a Poll results page
     Then I should see a link to explain what apoll-oh is about
     And a link back to the home page
     And a table for the results
-    And the question asked
-    And a link to change the ordering of results
+    And the question displayed is "Is this a question?"
 
   Scenario: There are some different tweets for a poll
     Given I have the following polls

@@ -34,10 +34,10 @@ h6 {
   text-shadow: 0px 0px 10px #88ee00;
 }
 h1 {
-  font-size: 2em;
+  font-size: 2.2em;
 }
-h1.home {
-  font-size: 4em;
+.home h1 {
+  font-size: 3.2em;
 }
 h2 {
   font-size: 1.8em;
@@ -125,8 +125,6 @@ textarea {
 header {
   border-bottom-style: solid;
   top: 0;
-  height: 9em;
-  max-height: 150px;
 }
 footer {
   border-top-style: solid;
@@ -143,11 +141,14 @@ footer h2 {
 }
 article.page {
   padding: 0 5%;
-  padding-top: 6.75em;
+  padding-top: 1em;
   padding-bottom: 3.375em;
   font-size: 1.5em;
   max-width: 20em;
   margin: 0 auto;
+}
+article.page div:first-child h3 {
+  margin-top: 0;
 }
 table {
   width: 100%;

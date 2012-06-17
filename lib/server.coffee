@@ -34,13 +34,21 @@ class WebServer
     # define routes
     @server.get '/', (req, res)->
       app.getAllPolls (polls)->
-        res.render 'home', {locals: {polls:{polls}}}
+        res.render 'home', {locals: {
+          title: 'apoll-oh!'
+          polls:{polls}
+          pageType:'home'
+        }}
 
     @server.get '/whatsthisallabout', (req, res)->
-      res.render 'whatsthisallabout'
+      res.render 'whatsthisallabout', {locals: {
+        title: "What's this all about?"
+      }}
 
     @server.get '/polls/new', (req, res)->
-      res.render 'polls/new'
+      res.render 'polls/new', {locals: {
+        title: "New question"
+      }}
 
     @server.post '/polls/create', (req, res)->
       app.createNewPoll req.body.question, (token) ->
@@ -57,13 +65,17 @@ class WebServer
             polls:{polls}
             adminKey: app.adminKey
             filter: filter
+            title: "Metrics"
           }}
 
     @server.get /^\/[a-zA-Z0-9]{4}$/ , (req, res)->
       token = req.url.slice(1)
       app.getPoll token, (poll)->
         res.send 404 if poll is null
-        res.render 'poll', {locals: {poll: poll}}
+        res.render 'poll', {locals: {
+          poll: poll
+          title: poll.question
+        }}
 
 
     # start listening

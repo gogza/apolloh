@@ -133,8 +133,8 @@ steps = module.exports = () ->
     @browser.queryAll('#results table').should.not.be.empty
     next()
 
-  @Then /^the question asked$/, (next) ->
-    @browser.queryAll('#question').should.not.be.empty
+  @Then /^the question displayed is "([^"]*)"$/, (question, next) ->
+    @browser.text('header h1').should.include(question)
     next()
 
   @Then /^a link to change the ordering of results$/, (next) ->

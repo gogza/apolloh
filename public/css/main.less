@@ -44,10 +44,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 2em;
-  &.home {
-    font-size: 4em;
-  }
+  font-size: 2.2em;
+}
+
+.home h1{
+  font-size: 3.2em;
 }
 
 h2 {
@@ -124,8 +125,6 @@ textarea {
   padding-bottom: 3px;
 }
 
-
-@header-height: 9em;
 @footer-height: 4.5em;
 
 .padding {
@@ -150,8 +149,6 @@ textarea {
 header {
   border-bottom-style: solid;
   top: 0;
-  height: @header-height;
-  max-height: 150px;
 }
 
 footer {
@@ -170,11 +167,15 @@ footer {
 
 article.page {
   .padding;
-  padding-top: @header-height * 0.75;
+  padding-top: 1em;
   padding-bottom: @footer-height * 0.75;
   font-size: 1.5em;
   max-width: @maxTableWidth;
   margin: 0 auto;
+
+  div:first-child h3 {
+    margin-top: 0;
+  }
 }
 
 table {

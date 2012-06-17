@@ -1,7 +1,6 @@
-header.bar
-  h1#question New question
 article#results.page
   #form
+    h3 Add a question
     p Just type in your question and click 'Create'
     form#add-question(action="/polls/create",method="post")
       textarea#question-text(name="question",placeholder="Your question")
