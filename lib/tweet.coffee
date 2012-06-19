@@ -7,6 +7,10 @@ EventEmitter = require('events').EventEmitter
 # app dependencies
 mongoose = require './mongoose'
 
+# helpers
+
+i = console.log
+
 #Build schema
 
 schema = new mongoose.Schema (

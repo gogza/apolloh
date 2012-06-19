@@ -22,11 +22,15 @@ class Twitter
       console.log arguments
   @track: (filterTerms, next) ->
     assert.ok filterTerms.length > 0, "Twitter.track: Filter Terms must have at least 1 character"
+
+    filterTerms = filterTerms.replace("'", " ", "g"); #remove apostrophes
+
     liveStream.destroy() if liveStream isnt null
     twitter.stream 'statuses/filter', {'track': filterTerms}, (stream)->
       liveStream = stream
 
       stream.on 'data', (data)->
+        console.log "Twitter: #{data.text}"
         next(data)
 
       stream.on 'destroy', () ->

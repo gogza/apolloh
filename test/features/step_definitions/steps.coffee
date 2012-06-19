@@ -28,6 +28,7 @@ steps = module.exports = () ->
     Tweet.clearAll () =>
       Poll.clearAll () =>
         track = sinon.stub @monitor.twitter, 'track'
+        @monitor.timeout = 5/60000
         next()
 
   @After (next) ->
