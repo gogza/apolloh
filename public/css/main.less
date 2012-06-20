@@ -35,7 +35,7 @@ body {
 
 .theGlow {
   font-weight: normal;
-  font-family: Geometry;
+  font-family: Geometry, sans;
   color: @theYellow;
   text-shadow: 0px 0px 10px @theYellowGlow;
 }
@@ -113,6 +113,7 @@ textarea {
     }
   }
 }
+
 
 .order-by {
   position: absolute;
@@ -225,6 +226,7 @@ table {
 
 @media screen and (max-width: 500px){
 
+  /* this make the UserVoice widget smaller at smaller resolutions */
   #uvTabLabel {
      padding: 6px 0 2px 32px !important;
      img {

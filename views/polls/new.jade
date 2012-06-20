@@ -4,4 +4,4 @@ article#results.page
     p Just type in your question and click 'Create'
     form#add-question(action="/polls/create",method="post")
       textarea#question-text(name="question",placeholder="Your question")
-      input#create(name="create",type="submit",value="Create")
+      input#create(name="create",type="submit",value="Create",disabled="disabled")
