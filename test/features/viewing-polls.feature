@@ -3,7 +3,6 @@ Feature: Looking at a Poll results page
   I want to see the results of a poll
   So I can see how the results are building
 
-  @wip
   Scenario: Visiting a poll page - sanity check
     Given I have the following polls
       | token | question            |
@@ -19,9 +18,9 @@ Feature: Looking at a Poll results page
       | token | question            |
       | abcd  | Is this a question? |
     And there are these tweets stored
-      | tweets                                        |
-      | apolloh.com/abcd Is this a question? #yes |
-      | apolloh.com/abcd Is this a question? #no  |
+      | tweets                                 | links                   |
+      | t.co/YbsHGvbH Is this a question? #yes | http://apolloh.com/abcd |
+      | t.co/YbsHGvbH Is this a question? #no  | http://apolloh.com/abcd |
     When I visit the page for the poll "abcd"
     Then I should see a total of 2 tweets in the results table
     And I should see 2 rows in the results table
@@ -35,9 +34,9 @@ Feature: Looking at a Poll results page
       | token | question            |
       | abcd  | Is this a question? |
     Given there are these tweets stored
-      | tweets                                     |
-      | apolloh.com/abcd Is this a question? #yes  |
-      | apolloh.com/abcd Is this a question? #yes  |
+      | tweets                                 | links                   |
+      | t.co/YbsHGvbH Is this a question? #yes | http://apolloh.com/abcd |
+      | t.co/YbsHGvbH Is this a question? #yes | http://apolloh.com/abcd |
     When I visit the page for the poll "abcd"
     Then I should see a total of 2 tweets in the results table
     And I should see 1 rows in the results table
@@ -49,13 +48,14 @@ Feature: Looking at a Poll results page
       | token | question            |
       | abcd  | Is this a question? |
     And there are these tweets stored
-      | tweets                                     |
-      | apolloh.com/abcd Is this a question? #yes  |
-      | apolloh.com/abcd Is this a question? #yes  |
+      | tweets                                 | links                   |
+      | t.co/YbsHGvbH Is this a question? #yes | http://apolloh.com/abcd |
+      | t.co/YbsHGvbH Is this a question? #yes | http://apolloh.com/abcd |
     And the following tweets arrive
-      | tweets                                     |
-      | apolloh.com/abcd Is this a question? #yes  |
-      | apolloh.com/abcd Is this a question? #no   |
+      | tweets                                 | links                   |
+      | t.co/YbsHGvbH Is this a question? #yes | http://apolloh.com/abcd |
+      | Is this a question? #no                | http://nowhere.com/abcd |
+      | t.co/YbsHGvbJ Is this a random tweet   | http://nowhere.com/abcd |
     When I visit the page for the poll "abcd"
     Then I should see a total of 4 tweets in the results table
     And I should see 2 rows in the results table

@@ -61,9 +61,11 @@ Poll.on "created", (poll) ->
 
 Poll.on "answerAdded", (answer) ->
   Apolloh.emit "poll/answerAdded", answer
+  Apolloh.emit "poll/tweetProcessed", answer
 
-Poll.on "unmatchedAnswer", (answer) ->
+Poll.on "unmatchedTweet", (answer) ->
   Apolloh.emit "poll/unmatchedAnswer", answer
+  Apolloh.emit "poll/tweetProcessed", answer
 
 
 module.exports = Apolloh

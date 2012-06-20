@@ -1,14 +1,21 @@
 # POLLS
 
-#node.js dependencies
+# node.js dependencies
 assert = require 'assert'
 EventEmitter = require('events').EventEmitter
 
-#app dependenices
+# app dependenices
 mongoose = require './mongoose'
+
+# helpers
+
+i = (info) -> console.log "Poll: #{info}"
+
+Poll = null
 
 AnswerSchema = new mongoose.Schema (
   text: String
+  tweets: [Object]
   count: {type: Number, default: 0}
 )
 
@@ -37,7 +44,6 @@ PollSchema.statics.get = (token, next) ->
       next(poll)
 
 PollSchema.statics.create = (question, token, next) ->
-  Poll = @
 
   if typeof token == "function"
    next = token
@@ -70,19 +76,52 @@ PollSchema.statics.getFilter = (next) ->
     filter = (poll.question for poll in polls).join(',')
     next(filter)
 
-PollSchema.statics.use = (app) ->
-  app.on 'tweet/received', (tweet) ->
-    assert.ok typeof tweet == "string", "#{tweet} should be a string"
-    found = tweet.match(/apolloh\.com\/[a-z0-9]{4}\s/i)
 
-    if found and found.length is 1
-      token = found[0].trim().substr(-4)
-      Poll.findOne {token:token}, (err, poll) ->
-        if not err and poll
-          poll.addTweet tweet, (answer) ->
-            Poll.emit "answerAdded", {token: poll.token, answer: answer}
+tryExtractingFromUrl = (tweet) ->
+  token = null
+
+  matchingUrls = (url.expanded_url for url in tweet.entities.urls when url.expanded_url.match(/http:\/\/apolloh\.com\/[a-z0-9]{4}/i))
+
+  if matchingUrls.length is 1
+    token = matchingUrls[0].trim().substr(-4)
+    i "Matched tweet by url '#{token}'"
+  token
+
+tryExtractingFromText = (tweet, next) ->
+  Poll.find {}, ['question', 'token'], (err, polls) ->
+    matchingQuestions = (poll.token for poll in polls when tweet.text.indexOf(poll.question) isnt -1)
+    if matchingQuestions.length is 1
+      token = matchingQuestions[0]
+      i "Matched tweet by text '#{token}'"
+      next token
     else
-      Poll.emit "unmatchedTweet", tweet
+      next null
+
+extractToken = (tweet, next) ->
+  token = null
+  token = tryExtractingFromUrl(tweet)
+  if token
+    next(token)
+    return
+  tryExtractingFromText(tweet,next)
+
+
+PollSchema.statics.use = (app) ->
+  app.on 'monitor/received', (tweet) ->
+    i "Received tweet '#{tweet.text}'"
+    assert.ok typeof tweet == "object", "#{tweet} should be an object"
+
+    extractToken tweet, (token) ->
+      if token
+        i "Found token '#{token}'"
+        Poll.findOne {token:token}, (err, poll) ->
+          if not err and poll
+            i "Found poll for '#{token}'"
+            poll.addTweet tweet.text, (answer) ->
+              Poll.emit "answerAdded", {token: poll.token, answer: answer}
+      else
+        i "Unmatched tweet '#{tweet.text}'"
+        Poll.emit "unmatchedTweet", tweet.text
 
 
 # Methods
@@ -118,7 +157,7 @@ PollSchema.virtual('tweet').get () ->
 
 Poll = mongoose.model 'Poll', PollSchema
 
-# Listening on ..
+# Listening on ...
 
 # making the Poll class a static Event Emitter
 Poll[k] = func for k, func of EventEmitter.prototype

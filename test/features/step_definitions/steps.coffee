@@ -3,6 +3,7 @@ sinon = require 'sinon'
 
 Tweet = require '../../../lib/tweet'
 Poll = require '../../../lib/poll'
+Apolloh = require '../../../lib/apolloh'
 
 track = null
 
@@ -53,10 +54,10 @@ steps = module.exports = () ->
 
   @Given /^there are these tweets stored$/, (table, next) ->
 
-    tweets = ({text: tweet.tweets} for tweet in table.hashes())
+    tweets = ({text: tweet.tweets, entities: {urls:[{expanded_url: "http://extra.com"}, {expanded_url:tweet.links}]}} for tweet in table.hashes())
 
-    asyncAdd Poll, 'answerAdded', tweets, next, (tweet) ->
-      Tweet.create(tweet)
+    asyncAdd Apolloh, 'poll/tweetProcessed', tweets, next, (tweet) ->
+      Apolloh.emit 'monitor/received', tweet
 
 
   @Given /^I have the following polls$/, (table, next) ->
@@ -72,9 +73,10 @@ steps = module.exports = () ->
     @visit '/' + token, next
 
   @When /^the following tweets arrive$/, (table, next) ->
-    tweets = ({text:hash.tweets} for hash in table.hashes())
 
-    asyncAdd Poll, 'answerAdded', tweets, next, (tweet) ->
+    tweets = ({text: tweet.tweets, entities: {urls:[{expanded_url: "http://extra.com"},{expanded_url:tweet.links}]}} for tweet in table.hashes())
+
+    asyncAdd Apolloh, 'poll/tweetProcessed', tweets, next, (tweet) ->
       track.yield tweet
 
   @When /^I visit the admin page$/, (next) ->

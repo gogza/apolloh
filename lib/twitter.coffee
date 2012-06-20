@@ -30,12 +30,7 @@ class Twitter
       liveStream = stream
 
       stream.on 'data', (data)->
-        console.log "Twitter: #{data.text}"
         next(data)
-
-      stream.on 'destroy', () ->
-        console.log "destroyed"
-        console.log arguments
 
     liveStream
 
