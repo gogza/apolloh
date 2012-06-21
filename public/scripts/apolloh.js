@@ -22,8 +22,8 @@ var Apolloh = (function($) {
   };
 
   checkWordCount = function (text, count) {
-    oneLine = text.replace(/[\s|?]/g,' ');
-    words = oneLine.trim().split(' ');
+    var oneLine = text.replace(/[\s|?]/g,' ');
+    var words = oneLine.trim().split(' ');
     if (words.length < count) {
       return "Please enter at least 3 words.";
     }
@@ -31,7 +31,7 @@ var Apolloh = (function($) {
   };
 
   $(function() {
-    $('#question-text').bind('keypress paste input', function(){
+    $('#question-text').bind('keypress paste input change', function(){
       $('#errors').remove();
 
       var text = $(this).val();

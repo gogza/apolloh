@@ -3,6 +3,7 @@ should = require 'should'
 server = require '../../../apolloh'
 
 World = module.exports = (next) ->
+
   @browser = new zombie.Browser()
 
   @page = (path) ->

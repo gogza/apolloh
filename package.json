@@ -13,7 +13,10 @@
     "express": "latest",
     "jade": "latest",
     "less": "latest",
-    "ntwitter": "latest"
+    "ntwitter": "latest",
+    "winston": "latest",
+    "nconf": "latest",
+    "winston-loggly": "latest"
   },
   "devDependencies": {
     "coffee-script": "latest",

@@ -10,10 +10,6 @@ twitter = new ntwitter {
   access_token_secret: 'fBrKlfQ6LECPsbPMN9B4PVFLt7ZRyHtG3OGyrtHio'
 }
 
-#    @twitter.verifyCredentials (err, data) ->
-#      console.log data if data
-#      console.log err if err
-
 liveStream = null
 
 class Twitter

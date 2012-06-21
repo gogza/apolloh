@@ -104,7 +104,8 @@ steps = module.exports = () ->
       checkIfBothComplete() if clientFinished()
 
     asyncAdd Poll, 'created', questions, theServerIsFinished, (question) =>
-      @browser.fill("#question-text", question).pressButton("#create", submittedFormOnClient)
+      @browser.fill "#question-text", question, ()=>
+        @browser.pressButton "#create", submittedFormOnClient
 
   @When /^I visit the explanation page$/, (next) ->
     @visit '/whatsthisallabout', next

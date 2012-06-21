@@ -3,13 +3,15 @@
 # node.js dependencies
 assert = require 'assert'
 EventEmitter = require('events').EventEmitter
+winston = require 'winston'
 
 # app dependenices
 mongoose = require './mongoose'
+Logger = require "./logger"
 
 # helpers
-
-i = (info) -> console.log "Poll: #{info}"
+logger = new Logger("Poll")
+i = logger.info
 
 Poll = null
 
@@ -84,7 +86,7 @@ tryExtractingFromUrl = (tweet) ->
 
   if matchingUrls.length is 1
     token = matchingUrls[0].trim().substr(-4)
-    i "Matched tweet by url '#{token}'"
+    i "Matched tweet by url", {token:token}
   token
 
 tryExtractingFromText = (tweet, next) ->
@@ -92,7 +94,7 @@ tryExtractingFromText = (tweet, next) ->
     matchingQuestions = (poll.token for poll in polls when tweet.text.indexOf(poll.question) isnt -1)
     if matchingQuestions.length is 1
       token = matchingQuestions[0]
-      i "Matched tweet by text '#{token}'"
+      i "Matched tweet by text", {token:token}
       next token
     else
       next null
@@ -108,19 +110,19 @@ extractToken = (tweet, next) ->
 
 PollSchema.statics.use = (app) ->
   app.on 'monitor/received', (tweet) ->
-    i "Received tweet '#{tweet.text}'"
+    i "Received tweet", {text:tweet.text}
     assert.ok typeof tweet == "object", "#{tweet} should be an object"
 
     extractToken tweet, (token) ->
       if token
-        i "Found token '#{token}'"
+        i "Found token", {token:token}
         Poll.findOne {token:token}, (err, poll) ->
           if not err and poll
-            i "Found poll for '#{token}'"
+            i "Found poll", {token:token}
             poll.addTweet tweet.text, (answer) ->
               Poll.emit "answerAdded", {token: poll.token, answer: answer}
       else
-        i "Unmatched tweet '#{tweet.text}'"
+        i "Unmatched tweet", {text:tweet.text}
         Poll.emit "unmatchedTweet", tweet.text
 
 
@@ -158,6 +160,8 @@ PollSchema.virtual('tweet').get () ->
 Poll = mongoose.model 'Poll', PollSchema
 
 # Listening on ...
+#
+# Nothing
 
 # making the Poll class a static Event Emitter
 Poll[k] = func for k, func of EventEmitter.prototype

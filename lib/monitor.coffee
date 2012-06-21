@@ -6,11 +6,16 @@ events = require 'events'
 
 #libraries
 Twitter = require './twitter'
+Logger = require './logger'
 
 #helpers
+logger = new Logger("Monitor")
+i = logger.info
 
-i = console.log
-
+wordCount= (text)->
+  oneLine = text.replace(/[\s|\?|\,]/g,' ').replace(/\s+/g,' ');
+  words = oneLine.trim().split(' ');
+  words.length
 
 filter = ""
 lastTrackStarted = null
@@ -35,26 +40,26 @@ class Monitor extends events.EventEmitter
     assert.ok newFilter.length > 0, "Monitor.watch: filter must have at least 1 character"
 
     filter = newFilter
-    i "Monitor: storing the filter '#{filter}'"
+    i "storing the filter", {filter:filter, wordCount:wordCount(filter)}
     if (lastTrackStarted is null) or (lastTrackStarted < minutesAgo(@timeout))
        @track()
     else
-      i "Monitor: can't restart now"
+      i "can't restart now"
       if not aRestartIsScheduled
         periodUntilNextPossibleStart = nextTimeCanStart(@timeout) - (new Date())
-        i "Monitor: will re-start in #{periodUntilNextPossibleStart/1000}s"
+        i "will re-start", {seconds: periodUntilNextPossibleStart/1000}
         scopedTrack = ()=> @track() # cos setTimeout switches to global scope
         setTimeout scopedTrack, periodUntilNextPossibleStart
         aRestartIsScheduled = true
 
   track: () ->
-    i "Monitor: starting to track '#{filter}'"
+    i "starting to track", {filter:filter}
     @twitter.track filter, (tweet) =>
       assert.ok typeof tweet == "object", "Monitor: #{tweet} is not an object."
       @emit "received", tweet
     lastTrackStarted = new Date()
     aRestartIsScheduled = false
-    i "Monitor: tracking '#{filter}'"
+    i "tracking", {filter:filter}
     @emit "restarted", lastTrackStarted
 
 

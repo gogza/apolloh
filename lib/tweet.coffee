@@ -9,7 +9,7 @@ mongoose = require './mongoose'
 
 # helpers
 
-i = console.log
+# <none>
 
 #Build schema
 

@@ -5,9 +5,11 @@ express = require 'express'
 
 app = {}
 
-#helpers
+# Helpers
 
-l = console.log
+
+
+# none
 
 class WebServer
   constructor: ()->
