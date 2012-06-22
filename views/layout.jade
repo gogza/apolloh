@@ -23,6 +23,8 @@ html.no-js(lang='en')
     #nudger
     header.bar
       h1= title
+      .messages
+        a(href="javascript:UserVoice.showPopupWidget();",title="Yummy! Feeback taste good.") Help me grow up.
       .order-by
         span 
     !=body
@@ -47,7 +49,6 @@ html.no-js(lang='en')
       var uvOptions = {};
       (function() {
         var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
-        uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/mNHezDpImGyoU4pwCIslug.js';
+        uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/1H6joaFo8MJpk8fHSCjChA.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
         })();
-
