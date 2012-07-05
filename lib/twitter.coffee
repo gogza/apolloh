@@ -1,14 +1,16 @@
 
-ntwitter = require 'ntwitter'
-
+# Node dependencies
 assert = require 'assert'
 
-twitter = new ntwitter {
-  consumer_key: 'kda1PId7EJVw65pGxBQXg'
-  consumer_secret: '76TD1z1EVTGb6tWMmC8xCRb1uZQlPx4epuJuukQuuIE'
-  access_token_key: '560439151-NFpf7NsZ9WzfHG0c0vDQIJ9il8rM0GWWeVLDv5SR'
-  access_token_secret: 'fBrKlfQ6LECPsbPMN9B4PVFLt7ZRyHtG3OGyrtHio'
-}
+# 3rd party dependencies
+ntwitter = require 'ntwitter'
+
+# application dependencies
+conf = require './conf'
+
+options = conf.get 'twitter'
+
+twitter = new ntwitter(options)
 
 liveStream = null
 
